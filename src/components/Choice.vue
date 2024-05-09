@@ -1,12 +1,13 @@
 <template>
-    <div class="choice">
-        <div class="choice__title">Количество карт:</div>
-        <div class="choice__card-quantity-wrapper">
+    <div :class="$style.choice">
+        <div :class="$style.title">
+            Количество карт:
+        </div>
+        <div :class="$style.wrapper">
             <div
-                class="choice__card-quantity"
-                :class="cardQuantityClass(item)"
-                v-for="item in [3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20]"
+                v-for="item in [...Array(21).keys()].slice(3)"
                 :key="item"
+                :class="cardQuantityClass(item)"
                 @click="changeActiveChoiceIndex(item)"
             >
                 {{ item }}
@@ -15,65 +16,76 @@
     </div>
 </template>
 
-<script setup>
-    import { mainStore } from '../store/main';
-    import { router } from '../router';
-    const store = mainStore();
+<script setup lang="ts">
+import { useCssModule } from 'vue';
+import { useRouter } from 'vue-router';
+import { mainStore } from '@/store/main';
 
-    const cardQuantityClass = index => ({
-        'choice__card-quantity--active': store.activeChoiceIndex === index,
-        'choice__card-quantity--animate': store.isInitedWatch,
+const store = mainStore();
+const router = useRouter();
+const $style = useCssModule();
+
+const cardQuantityClass = (index: number) => ({
+    [$style.quantity]: true,
+    [$style.quantityActive]: store.activeChoiceIndex === index,
+    [$style.quantityAnimate]: store.isInitedWatch,
+});
+
+const changeActiveChoiceIndex = (index: number) => {
+    store.resetGame();
+    router.push({
+        path: '/statistical-trap/',
+        query: { cardCount: index }, 
     });
-
-    const changeActiveChoiceIndex = index => {
-        store.resetGame();
-        router.push({ path: '/statistical-trap/', query: { cardCount: index } });
-    };
+};
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss" module>
     .choice {
         display: flex;
         flex-direction: column;
         gap: 10px;
+    }
 
-        &__title {
-            font-size: 25px;
-            font-weight: bold;
+    .title {
+        font-size: 25px;
+        font-weight: bold;
+    } 
+
+    .wrapper {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+    }
+
+    .quantity {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 40px;
+        min-width: 40px;
+        height: 40px;
+        border-radius: 5px;
+        border: 1px solid;
+        background-color: #fff;
+        font-size: 20px;
+        cursor: pointer;
+        user-select: none;
+
+        &:hover {
+            background-color: #a9f5b6;
         }
 
-        &__card-quantity-wrapper {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 10px;
+        &:active{
+            background-color: #8cf8c9;
         }
+    }
 
-        &__card-quantity {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            width: 40px;
-            min-width: 40px;
-            height: 40px;
-            border: 1px solid;
-            background-color: #fff;
-            border-radius: 5px;
-            font-size: 20px;
-            cursor: pointer;
-            user-select: none;
+    .quantityActive {
+        background-color: #8cf8c9;
+    }
 
-            &:hover {
-                background-color: #a9f5b6;
-            }
-
-            &:active,
-            &--active {
-                background-color: #8cf8c9;
-            }
-
-            &--animate {
-                transition: 0.3s ease;
-            }
-        }
+    .quantityAnimate {
+        transition: 0.3s ease;
     }
 </style>

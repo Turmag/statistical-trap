@@ -4,11 +4,11 @@
     <Game />
 </template>
 
-<script setup>
-    import Choice from './components/Choice.vue';
-    import Game from './components/game/Game.vue';
+<script setup lang="ts">
+    import Choice from '@/components/Choice.vue';
+    import Game from '@/components/game/Game.vue';
     import { useRoute } from 'vue-router';
-    import { mainStore } from './store/main';
+    import { mainStore } from '@/store/main';
     import { watch } from 'vue';
     const route = useRoute();
     const store = mainStore();

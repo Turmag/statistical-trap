@@ -9,7 +9,7 @@ export const mainStore = defineStore('main', {
             openedCardsIndexes: [] as number[],
             isFirstCardOpened: false,
             isInitedCards: false,
-            initedClasses: [],
+            initedClasses: [] as string[],
             specialCardIndex: -1,
             isLost: false,
             isWin: false,

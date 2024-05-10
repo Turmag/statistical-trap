@@ -1,33 +1,32 @@
 <template>
-    <h1>Статистическая «ловушка»</h1>
+    <Header />
     <Choice />
     <Game />
 </template>
 
 <script setup lang="ts">
-    import Choice from '@/components/Choice.vue';
-    import Game from '@/components/game/Game.vue';
-    import { useRoute } from 'vue-router';
-    import { mainStore } from '@/store/main';
-    import { watch } from 'vue';
-    const route = useRoute();
-    const store = mainStore();
+import Header from '@/components/header/Header.vue';
+import Choice from '@/components/Choice.vue';
+import Game from '@/components/game/Game.vue';
+import { useRoute } from 'vue-router';
+import { mainStore } from '@/store/main';
+import { watch } from 'vue';
+import { useTheme } from '@/assets/js/theme';
 
-    watch(
-        () => route.query.cardCount,
-        val => {
-            if (val > 2 && val < 21) {
-                store.resetGame();
-                store.$patch({
-                    activeChoiceIndex: Number(val),
-                });
-            }
+const route = useRoute();
+const store = mainStore();
+useTheme();
 
-            setTimeout(() => {
-                store.$patch({
-                    isInitedWatch: true,
-                });
-            }, 10);
+watch(
+    () => route.query.cardCount,
+    value => {
+        const val = Number(value);
+        if (val > 2 && val < 21) {
+            store.resetGame();
+            store.activeChoiceIndex = val;
         }
-    );
+
+        setTimeout(() => store.isInitedWatch = true, 10);
+    },
+);
 </script>

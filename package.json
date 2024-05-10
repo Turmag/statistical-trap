@@ -12,6 +12,7 @@
     },
     "dependencies": {
         "@iconify/json": "^2.1.136",
+        "floating-vue": "^5.2.2",
         "pinia": "^2.0.23",
         "sass": "^1.56.1",
         "unplugin-icons": "^0.14.13",

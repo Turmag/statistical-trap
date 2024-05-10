@@ -77,18 +77,18 @@ const resetGame = () => store.resetGame();
         padding: 10px;
         border-radius: 5px;
         border: 1px solid;
-        background-color: #fff;
+        background-color: var(--background-color);
         font-size: 20px;
         transition: 0.3s ease;
         cursor: pointer;
         user-select: none;
 
         &:hover {
-            background-color: #a9f5b6;
+            background-color: var(--btn-hover-bg);
         }
 
         &:active {
-            background-color: #8cf8c9;
+            background-color: var(--btn-active-bg);
         }
     }
 </style>

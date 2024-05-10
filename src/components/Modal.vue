@@ -93,9 +93,9 @@ const closeModal = () => store.isShowModal = false;
         max-height: 680px;
         padding: 60px 16px 16px;
         border-radius: 20px;
-        background-color: #fff;
-        color: #111;
-        box-shadow: 0 4px 32px rgb(0 0 0 / 10%);
+        background-color: var(--background-color);
+        color: var(--color);
+        box-shadow: 0 4px 32px var(--shadow-color);
     }
 
     .inner {
@@ -136,18 +136,18 @@ const closeModal = () => store.isShowModal = false;
         padding: 10px;
         border-radius: 5px;
         border: 1px solid;
-        background-color: #fff;
+        background-color: var(--background-color);
         font-size: 20px;
         transition: 0.3s ease;
         cursor: pointer;
         user-select: none;
 
         &:hover {
-            background-color: #a9f5b6;
+            background-color: var(--btn-hover-bg);
         }
 
         &:active {
-            background-color: #8cf8c9;
+            background-color: var(--btn-active-bg);
         }
     }
 </style>

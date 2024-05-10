@@ -1,11 +1,15 @@
 @import '@/assets/scss/card.scss';
 
 :root {
-    background-color: #fff;
+    --color: #213547;
+    --background-color: #fff;
+    --btn-hover-bg: #a9f5b6;
+    --btn-active-bg: #8cf8c9;
+    --shadow-color: rgb(0 0 0 / 10%);
+    
     font-family: Verdana, Geneva, Tahoma, sans-serif;
     font-size: 16px;
     line-height: 24px;
-    color: #213547;
     font-weight: 400;
     color-scheme: light dark;
     font-synthesis: none;
@@ -20,7 +24,19 @@ body {
     min-width: 320px;
     min-height: 100vh;
     margin: 0;
-    background-image: url('./assets/img/bg.png');
+    background-color: var(--background-color);
+    background-image: url('@/assets/img/bg.png');
+    color: var(--color);
+
+    &.dark {
+        background-image: url('@/assets/img/bg-inverse.png');
+
+        --color: #decab8;
+        --background-color: #282828;
+        --btn-hover-bg: #560a49;
+        --btn-active-bg: #730736;
+        --shadow-color: rgb(255 255 255 / 10%);
+    }
 }
 
 #app {
@@ -36,8 +52,4 @@ a {
 
 a:hover {
     color: #535bf2;
-}
-
-p {
-    margin: 10px 0;
 }

@@ -11,6 +11,9 @@ export default defineConfig(({ mode }: { mode: string }) => {
         plugins: [vue(), Components({ resolvers: [IconsResolver({ prefix: '' })] }), Icons({ autoInstall: true })],
         base: '/statistical-trap/',
         resolve: { alias: { '@': path.resolve(__dirname, './src') } },
-        css: { modules: { generateScopedName: mode === 'development' ? '' : '[hash:base64:8]' } },
+        css: {
+            modules: { generateScopedName: mode === 'development' ? '' : '[hash:base64:8]' },
+            preprocessorOptions: { scss: { api: 'modern-compiler' } }, 
+        },
     };
 });

@@ -7,10 +7,7 @@ export {}
 /* prettier-ignore */
 declare module 'vue' {
   export interface GlobalComponents {
-    Btns: typeof import('./src/components/game/Btns.vue')['default']
     CarbonHelp: typeof import('~icons/carbon/help')['default']
-    Card: typeof import('./src/components/game/Card.vue')['default']
-    Cards: typeof import('./src/components/game/Cards.vue')['default']
     Choice: typeof import('./src/components/Choice.vue')['default']
     Game: typeof import('./src/components/game/Game.vue')['default']
     GameButtons: typeof import('./src/components/game/GameButtons.vue')['default']
@@ -23,6 +20,5 @@ declare module 'vue' {
     Modal: typeof import('./src/components/Modal.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
-    Switch: typeof import('./src/components/header/Switch.vue')['default']
   }
 }

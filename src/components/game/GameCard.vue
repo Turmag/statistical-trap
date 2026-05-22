@@ -10,51 +10,49 @@
 </template>
 
 <script setup lang="ts">
-import { getRandom } from '@/assets/js/helpers';
 import allCardsClasses from '@/allCardsClasses.json';
-import { mainStore } from '@/store/main';
 import { useCssModule } from 'vue';
+import { useMainStore } from '@/stores/useMain.store';
+import { getRandom } from '@/shared/helpers';
 
-interface Props {
-    number: number;
+interface IProps {
     isOpened?: boolean;
+    number: number;
 }
 
-const props = withDefaults(defineProps<Props>(), { isOpened: false });
+const props = withDefaults(defineProps<IProps>(), { isOpened: false });
 
-const store = mainStore();
+const mainStore = useMainStore();
 const $style = useCssModule();
 
-let allCardsClassesArr = allCardsClasses.slice();
+let allCardsClassesArr = [...allCardsClasses];
 
 let isSpecialCardChosen = false;
 const specialCardClass = 'hearts_a';
-let initedClasses = store.initedClasses;
+let initedClasses = mainStore.initedClasses;
 
-const cardWrapperClass = (index: number) => {
-    return {
-        [$style.wrapper]: true,
-        [$style.wrapperAnimate]: store.openedCardsIndexes.includes(index),
-        [$style.wrapperRotate]: store.openedCardsIndexes.includes(index),
-        [$style.wrapperActive]: store.activeCardNumber === index,
-        [$style.wrapperWin]:
-            (store.isWin && store.activeCardNumber === index) || props.isOpened,
-        [$style.wrapperLost]:
-            store.isLost && store.activeCardNumber === index && !props.isOpened,
-        [$style.wrapperOpened]: props.isOpened,
-    };
-};
+const cardWrapperClass = (index: number) => ({
+    [$style.wrapper]: true,
+    [$style.wrapperActive]: mainStore.activeCardNumber === index,
+    [$style.wrapperAnimate]: mainStore.openedCardsIndexes.includes(index),
+    [$style.wrapperLost]:
+            mainStore.isLost && mainStore.activeCardNumber === index && !props.isOpened,
+    [$style.wrapperOpened]: props.isOpened,
+    [$style.wrapperRotate]: mainStore.openedCardsIndexes.includes(index),
+    [$style.wrapperWin]:
+            mainStore.isWin && mainStore.activeCardNumber === index || props.isOpened,
+});
 
 const initClass = (index: number) => {
     let classIndex = -1;
     if (!isSpecialCardChosen) {
         isSpecialCardChosen = getRandom(0, 1) === 1;
-        if (index === store.activeChoiceIndex) {
+        if (index === mainStore.activeChoiceIndex) {
             isSpecialCardChosen = true;
         }
 
         if (isSpecialCardChosen) {
-            store.specialCardIndex = index;
+            mainStore.specialCardIndex = index;
             classIndex = allCardsClassesArr.indexOf(specialCardClass);
         }
     }
@@ -66,40 +64,42 @@ const initClass = (index: number) => {
     const className: string = allCardsClassesArr[classIndex];
     allCardsClassesArr.splice(classIndex, 1);
 
-    if (!store.isInitedCards) {
+    if (!mainStore.isInitedCards) {
         initedClasses.push(className);
-        if (index === store.activeChoiceIndex) {
-            store.$patch({
-                isInitedCards: true,
+        if (index === mainStore.activeChoiceIndex) {
+            mainStore.$patch({
                 initedClasses,
+                isInitedCards: true,
             });
         }
     }
 };
 
 const initClasses = () => {
-    allCardsClassesArr = allCardsClasses.slice();
-    initedClasses = store.initedClasses;
+    allCardsClassesArr = [...allCardsClasses];
+    initedClasses = mainStore.initedClasses;
     isSpecialCardChosen = false;
-    for (let i = 1; i <= store.activeChoiceIndex; i++) {
+    for (let i = 1; i <= mainStore.activeChoiceIndex; i++) {
         initClass(i);
     }
 };
 
 const cardInnerClass = (index: number) => {
     if (props.isOpened) return specialCardClass;
-    if (!store.initedClasses.length) initClasses();
-    return store.initedClasses[index - 1];
+    if (!mainStore.initedClasses.length) initClasses();
+    return mainStore.initedClasses[index - 1];
 };
 
 const setActive = (index: number) => {
-    if (!store.openedCardsIndexes.includes(index) && !props.isOpened) {
-        store.activeCardNumber = index;
+    if (!mainStore.openedCardsIndexes.includes(index) && !props.isOpened) {
+        mainStore.activeCardNumber = index;
     }
 };
 </script>
 
 <style lang="scss" module>
+    /* stylelint-disable no-descending-specificity */
+
     .wrapper {
         position: relative;
         width: 200px;

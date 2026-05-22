@@ -5,28 +5,28 @@
 </template>
 
 <script setup lang="ts">
-import Header from '@/components/header/Header.vue';
+import { useTheme } from '@/shared/useTheme';
+import { useRoute } from 'vue-router';
+import { watch } from 'vue';
 import Choice from '@/components/Choice.vue';
 import Game from '@/components/game/Game.vue';
-import { useRoute } from 'vue-router';
-import { mainStore } from '@/store/main';
-import { watch } from 'vue';
-import { useTheme } from '@/assets/js/theme';
+import Header from '@/components/header/Header.vue';
+import { useMainStore } from '@/stores/useMain.store';
 
 const route = useRoute();
-const store = mainStore();
+const mainStore = useMainStore();
 useTheme();
 
 watch(
     () => route.query.cardCount,
     value => {
-        const val = Number(value);
-        if (val > 2 && val < 21) {
-            store.resetGame();
-            store.activeChoiceIndex = val;
+        const localValue = Number(value);
+        if (localValue > 2 && localValue < 21) {
+            mainStore.resetGame();
+            mainStore.activeChoiceIndex = localValue;
         }
 
-        setTimeout(() => store.isInitedWatch = true, 10);
+        setTimeout(() => mainStore.isInitedWatch = true, 10);
     },
 );
 </script>

@@ -1,5 +1,5 @@
 <template>
-    <vue-final-modal v-model="store.isShowModal" :classes="$style.modal" :content-class="$style.content">
+    <vue-final-modal v-model="modalStore.isShowModal" :classes="$style.modal" :content-class="$style.content">
         <div :class="$style.close" @click="closeModal">
             <mdi-close color="#111" width="20" height="20" />
         </div>
@@ -9,7 +9,7 @@
             </div>
             <p>В этой игре нужно угадать, где находится приз. Если что, то призовая карта эта:</p>
             <div :class="$style.centerWrapper">
-                <Card :number="1" :is-opened="true" />
+                <GameCard :number="1" is-opened />
             </div>
             <p>
                 Выберите карту и думайте, нужно ли менять её после выбора. Получится ли вам угадать
@@ -42,18 +42,18 @@
 </template>
 
 <script setup lang="ts">
-import Card from '@/components/game/Card.vue';
-import { modalStore } from '@/store/modal';
+import GameCard from '@/components/game/GameCard.vue';
+import { useModalStore } from '@/stores/useModal.store';
 
-const store = modalStore();
-const closeModal = () => store.isShowModal = false;
+const modalStore = useModalStore();
+const closeModal = () => modalStore.isShowModal = false;
 </script>
 
 <style lang="scss" module>
     .modal {
         display: flex;
-        align-items: center;
         justify-content: center;
+        align-items: center;
     }
 
     .close {
@@ -61,8 +61,8 @@ const closeModal = () => store.isShowModal = false;
         top: 16px;
         right: 16px;
         display: flex;
-        align-items: center;
         justify-content: center;
+        align-items: center;
         width: 30px;
         height: 30px;
         border-radius: 50%;
@@ -129,8 +129,8 @@ const closeModal = () => store.isShowModal = false;
     .btn {
         box-sizing: border-box;
         display: inline-flex;
-        align-items: center;
         justify-content: center;
+        align-items: center;
         min-width: 70px;
         height: 40px;
         padding: 10px;

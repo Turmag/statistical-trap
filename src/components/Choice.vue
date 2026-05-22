@@ -17,25 +17,25 @@
 </template>
 
 <script setup lang="ts">
-import { useCssModule } from 'vue';
 import { useRouter } from 'vue-router';
-import { mainStore } from '@/store/main';
+import { useCssModule } from 'vue';
+import { useMainStore } from '@/stores/useMain.store';
 
-const store = mainStore();
+const mainStore = useMainStore();
 const router = useRouter();
 const $style = useCssModule();
 
 const cardQuantityClass = (index: number) => ({
     [$style.quantity]: true,
-    [$style.quantityActive]: store.activeChoiceIndex === index,
-    [$style.quantityAnimate]: store.isInitedWatch,
+    [$style.quantityActive]: mainStore.activeChoiceIndex === index,
+    [$style.quantityAnimate]: mainStore.isInitedWatch,
 });
 
 const changeActiveChoiceIndex = (index: number) => {
-    store.resetGame();
+    mainStore.resetGame();
     router.push({
         path: '/statistical-trap/',
-        query: { cardCount: index }, 
+        query: { cardCount: index },
     });
 };
 </script>
@@ -50,7 +50,7 @@ const changeActiveChoiceIndex = (index: number) => {
     .title {
         font-size: 25px;
         font-weight: bold;
-    } 
+    }
 
     .wrapper {
         display: flex;
@@ -60,8 +60,8 @@ const changeActiveChoiceIndex = (index: number) => {
 
     .quantity {
         display: flex;
-        align-items: center;
         justify-content: center;
+        align-items: center;
         width: 40px;
         min-width: 40px;
         height: 40px;

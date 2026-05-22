@@ -5,14 +5,14 @@
                 <input
                     :class="$style.input"
                     type="checkbox"
-                    :checked="!store.isDarkMode"
+                    :checked="!mainStore.isDarkMode"
                     @change="toggle"
                 >
                 <span :class="$style.slider" />
             </label>
         </div>
         <mdi-refresh
-            v-if="store.isSavedDarkMode"
+            v-if="mainStore.isSavedDarkMode"
             v-tooltip="'Вернуться к системной теме'"
             :class="$style.refresh"
             @click="resetStorageDarkMode"
@@ -21,22 +21,23 @@
 </template>
 
 <script setup lang="ts">
-import { mainStore } from '@/store/main';
-const store = mainStore();
+import { useMainStore } from '@/stores/useMain.store';
+
+const mainStore = useMainStore();
 
 const toggle = () => {
     const bodyClass = document.body.classList;
     bodyClass.contains('dark') ? bodyClass.remove('dark') : bodyClass.add('dark');
-    store.isDarkMode = bodyClass.contains('dark');
-    localStorage.setItem('statisticalTrapDarkMode', String(store.isDarkMode));
-    store.isSavedDarkMode = true;
+    mainStore.isDarkMode = bodyClass.contains('dark');
+    localStorage.setItem('statisticalTrapDarkMode', String(mainStore.isDarkMode));
+    mainStore.isSavedDarkMode = true;
 };
 
 const resetStorageDarkMode = () => {
-    delete localStorage['statisticalTrapDarkMode'];
-    store.isDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches;
-    store.isDarkMode ? document.body.classList.add('dark') : document.body.classList.remove('dark');
-    store.isSavedDarkMode = false;
+    delete localStorage.statisticalTrapDarkMode;
+    mainStore.isDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches;
+    mainStore.isDarkMode ? document.body.classList.add('dark') : document.body.classList.remove('dark');
+    mainStore.isSavedDarkMode = false;
 };
 </script>
 

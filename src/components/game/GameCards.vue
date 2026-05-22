@@ -1,14 +1,14 @@
 <template>
     <div :class="$style.cards">
-        <Card v-for="card in store.activeChoiceIndex" :key="card" :number="card" />
+        <GameCard v-for="card in mainStore.activeChoiceIndex" :key="card" :number="card" />
     </div>
 </template>
 
 <script setup lang="ts">
-import Card from '@/components/game/Card.vue';
+import GameCard from '@/components/game/GameCard.vue';
+import { useMainStore } from '@/stores/useMain.store';
 
-import { mainStore } from '@/store/main';
-const store = mainStore();
+const mainStore = useMainStore();
 </script>
 
 <style lang="scss" module>

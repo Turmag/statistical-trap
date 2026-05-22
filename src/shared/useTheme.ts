@@ -1,23 +1,23 @@
 import {
+    onMounted,
     ref,
     watch,
     watchEffect,
-    onMounted, 
 } from 'vue';
-import { mainStore } from '@/store/main';
+import { useMainStore } from '@/stores/useMain.store';
 
 export function useTheme() {
-    const store = mainStore();
+    const mainStore = useMainStore();
     const matches = ref(true);
 
     const setDarkMode = () => {
         document.body.classList.add('dark');
-        store.isDarkMode = true;
+        mainStore.isDarkMode = true;
     };
 
     const setLightMode = () => {
         document.body.classList.remove('dark');
-        store.isDarkMode = false;
+        mainStore.isDarkMode = false;
     };
 
     watchEffect(onInvalidate => {
@@ -32,8 +32,8 @@ export function useTheme() {
 
     watch(
         () => matches.value,
-        val => {
-            if (!store.isSavedDarkMode) val ? setDarkMode() : setLightMode();
+        value => {
+            if (!mainStore.isSavedDarkMode) value ? setDarkMode() : setLightMode();
         },
     );
 

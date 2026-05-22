@@ -1,6 +1,6 @@
 <template>
     <div :class="$style.btns">
-        <div v-if="store.isGameFinished" :class="$style.btn" @click="resetGame">
+        <div v-if="mainStore.isGameFinished" :class="$style.btn" @click="resetGame">
             Ещё раз?
         </div>
         <div v-else :class="$style.btn" @click="continueGame">
@@ -10,31 +10,17 @@
 </template>
 
 <script setup lang="ts">
-import { getRandom } from '@/assets/js/helpers';
-import { mainStore } from '@/store/main';
-const store = mainStore();
+import { useMainStore } from '@/stores/useMain.store';
+import { getRandom } from '@/shared/helpers';
+
+const mainStore = useMainStore();
 
 const continueGame = () => {
-    let openedCardsIndexes: number[] = store.openedCardsIndexes;
+    let openedCardsIndexes: number[] = mainStore.openedCardsIndexes;
 
-    if (!store.isFirstCardOpened) {
+    if (mainStore.isFirstCardOpened) {
         const leftNumbers: number[] = [];
-        for (let i = 1; i <= store.activeChoiceIndex; i++) {
-            if (i !== store.activeCardNumber && i !== store.specialCardIndex) {
-                leftNumbers.push(i);
-            }
-        }
-        if (leftNumbers.length === store.activeChoiceIndex - 1) {
-            const randomIndex = getRandom(0, leftNumbers.length - 1);
-            leftNumbers.splice(randomIndex, 1);
-        }
-
-        store.$patch({ isFirstCardOpened: true });
-
-        openedCardsIndexes = [...leftNumbers];
-    } else {
-        const leftNumbers: number[] = [];
-        for (let i = 1; i <= store.activeChoiceIndex; i++) {
+        for (let i = 1; i <= mainStore.activeChoiceIndex; i++) {
             if (!openedCardsIndexes.includes(i)) {
                 leftNumbers.push(i);
             }
@@ -42,20 +28,35 @@ const continueGame = () => {
 
         openedCardsIndexes = [...openedCardsIndexes, ...leftNumbers];
 
-        const isWin = store.activeCardNumber === store.specialCardIndex;
+        const isWin = mainStore.activeCardNumber === mainStore.specialCardIndex;
         const isLost = !isWin;
 
-        store.$patch({
+        mainStore.$patch({
             isGameFinished: true,
-            isWin,
             isLost,
+            isWin,
         });
+    } else {
+        const leftNumbers: number[] = [];
+        for (let i = 1; i <= mainStore.activeChoiceIndex; i++) {
+            if (i !== mainStore.activeCardNumber && i !== mainStore.specialCardIndex) {
+                leftNumbers.push(i);
+            }
+        }
+        if (leftNumbers.length === mainStore.activeChoiceIndex - 1) {
+            const randomIndex = getRandom(0, leftNumbers.length - 1);
+            leftNumbers.splice(randomIndex, 1);
+        }
+
+        mainStore.$patch({ isFirstCardOpened: true });
+
+        openedCardsIndexes = [...leftNumbers];
     }
 
-    store.$patch({ openedCardsIndexes });
+    mainStore.$patch({ openedCardsIndexes });
 };
 
-const resetGame = () => store.resetGame();
+const resetGame = () => mainStore.resetGame();
 </script>
 
 <style lang="scss" module>
@@ -69,8 +70,8 @@ const resetGame = () => store.resetGame();
     .btn {
         box-sizing: border-box;
         display: flex;
-        align-items: center;
         justify-content: center;
+        align-items: center;
         min-width: 40px;
         height: 40px;
         margin-top: 20px;

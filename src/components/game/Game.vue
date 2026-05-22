@@ -14,45 +14,42 @@
         <div class="game__title game__title--left">
             <div class="game__title-text" v-text="message" />
         </div>
-        <Cards />
-        <Btns v-if="store.activeCardNumber !== -1" />
+        <GameCards />
+        <GameButtons v-if="mainStore.activeCardNumber !== -1" />
         <Modal />
     </div>
 </template>
 
 <script setup lang="ts">
-import Cards from '@/components/game/Cards.vue';
-import Btns from '@/components/game/Btns.vue';
-import Modal from '@/components/Modal.vue';
 import { computed } from 'vue';
-import { mainStore } from '@/store/main';
-import { modalStore } from '@/store/modal';
+import GameButtons from '@/components/game/GameButtons.vue';
+import GameCards from '@/components/game/GameCards.vue';
+import Modal from '@/components/Modal.vue';
+import { useMainStore } from '@/stores/useMain.store';
+import { useModalStore } from '@/stores/useModal.store';
 
-const store = mainStore();
-const storeModal = modalStore();
+const mainStore = useMainStore();
+const modalStore = useModalStore();
 
-const message = computed(() => {
-    const text = store.isWin
-        ? 'Вы победили'
-        : store.isLost
-            ? 'Вы проиграли'
-            : store.isFirstCardOpened
-                ? 'Вы можете изменить свой выбор'
-                : 'Выберите карту';
-    return text;
-});
+const message = computed(() => mainStore.isWin
+    ? 'Вы победили'
+    : mainStore.isLost
+        ? 'Вы проиграли'
+        : mainStore.isFirstCardOpened
+            ? 'Вы можете изменить свой выбор'
+            : 'Выберите карту');
 
-const showModal = () => storeModal.isShowModal = true;
+const showModal = () => modalStore.isShowModal = true;
 </script>
 
 <style lang="scss" scoped>
     .game {
         display: flex;
+        flex-direction: column;
+        gap: 10px;
         width: 100%;
         margin-top: 20px;
         font-size: 20px;
-        flex-direction: column;
-        gap: 10px;
 
         &__title {
             display: flex;

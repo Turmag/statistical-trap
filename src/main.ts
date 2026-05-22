@@ -6,6 +6,7 @@ const pinia = createPinia();
 import { vfmPlugin } from 'vue-final-modal';
 import FloatingVue from 'floating-vue';
 import 'floating-vue/dist/style.css';
+import '@/assets/scss/card.scss';
 import App from '@/App.vue';
 
 // eslint-disable-next-line @typescript-eslint/no-unsafe-argument

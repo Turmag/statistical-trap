@@ -11,6 +11,7 @@
     },
     "dependencies": {
         "@iconify/json": "^2.1.136",
+        "@vueuse/core": "^14.3.0",
         "floating-vue": "^5.2.2",
         "pinia": "^2.0.23",
         "sass": "^1.79.5",

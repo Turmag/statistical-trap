@@ -2,8 +2,8 @@ import { defineStore } from 'pinia';
 import { ref } from 'vue';
 
 export const useMainStore = defineStore('main', () => {
-    const isDarkMode = ref(false);
-    const isSavedDarkMode = ref(false);
+    const darkModeName = ref('isDarkModeStatisticalTrap');
+    const savedDarkModeName = ref('isSavedDarkModeStatisticalTrap');
     const isInitedWatch = ref(false);
     const activeChoiceIndex = ref(3);
     const activeCardNumber = ref(-1);
@@ -28,8 +28,8 @@ export const useMainStore = defineStore('main', () => {
     };
 
     return {
-        isDarkMode,
-        isSavedDarkMode,
+        darkModeName,
+        savedDarkModeName,
         isInitedWatch,
         activeChoiceIndex,
         activeCardNumber,

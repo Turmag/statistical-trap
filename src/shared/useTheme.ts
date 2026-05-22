@@ -1,3 +1,4 @@
+import { useStorage } from '@vueuse/core';
 import {
     onMounted,
     ref,
@@ -7,17 +8,19 @@ import {
 import { useMainStore } from '@/stores/useMain.store';
 
 export function useTheme() {
-    const mainStore = useMainStore();
+    const store = useMainStore();
+    const isDarkMode = useStorage(store.darkModeName, false);
+    const isSavedDarkMode = useStorage(store.savedDarkModeName, false);
     const matches = ref(true);
 
     const setDarkMode = () => {
         document.body.classList.add('dark');
-        mainStore.isDarkMode = true;
+        isDarkMode.value = true;
     };
 
     const setLightMode = () => {
         document.body.classList.remove('dark');
-        mainStore.isDarkMode = false;
+        isDarkMode.value = false;
     };
 
     watchEffect(onInvalidate => {
@@ -32,20 +35,15 @@ export function useTheme() {
 
     watch(
         () => matches.value,
-        value => {
-            if (!mainStore.isSavedDarkMode) value ? setDarkMode() : setLightMode();
+        isValue => {
+            if (!isSavedDarkMode.value) isValue ? setDarkMode() : setLightMode();
         },
     );
 
     onMounted(() => {
-        let isDarkMode = String(localStorage.getItem('statisticalTrapDarkMode'));
-
-        if (!['false', 'true'].includes(isDarkMode)) {
-            isDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches.toString();
-        } else {
-            store.isSavedDarkMode = true;
+        if (!isSavedDarkMode.value) {
+            isDarkMode.value = window.matchMedia('(prefers-color-scheme: dark)').matches;
         }
-
-        if (isDarkMode === 'true') setDarkMode();
+        if (isDarkMode.value) setDarkMode();
     });
 }

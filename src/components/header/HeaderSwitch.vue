@@ -1,6 +1,6 @@
 <template>
-    <div :class="$style.switchWrapper">
-        <div :class="$style.switch">
+    <UiFlex align-items="center" gap="g8">
+        <UiFlex position="relative" align-items="center" :class="$style.switch">
             <label :class="$style.label">
                 <input
                     :class="$style.input"
@@ -10,18 +10,29 @@
                 >
                 <span :class="$style.slider" />
             </label>
-        </div>
-        <mdi-refresh
-            v-if="isSavedDarkMode"
-            v-tooltip="'Вернуться к системной теме'"
-            :class="$style.refresh"
-            @click="resetStorageDarkMode"
-        />
-    </div>
+        </UiFlex>
+        <UiTooltipWrapper v-if="isSavedDarkMode">
+            <template #trigger>
+                <mdi-refresh
+                    :class="$style.refresh"
+                    @click="resetStorageDarkMode"
+                />
+            </template>
+
+            <UiTooltipContent>
+                Вернуться к системной теме
+            </UiTooltipContent>
+        </UiTooltipWrapper>
+    </UiFlex>
 </template>
 
 <script setup lang="ts">
 import { useStorage } from '@vueuse/core';
+import {
+    UiFlex,
+    UiTooltipContent,
+    UiTooltipWrapper,
+} from 'turmag-vue-components';
 import { useMainStore } from '@/stores/useMain.store';
 
 const mainStore = useMainStore();
@@ -44,16 +55,7 @@ const resetStorageDarkMode = () => {
 </script>
 
 <style lang="scss" module>
-    .switchWrapper {
-        display: flex;
-        align-items: center;
-        gap: 8px;
-    }
-
     .switch {
-        position: relative;
-        display: flex;
-        align-items: center;
         width: 44px;
     }
 
@@ -62,7 +64,7 @@ const resetStorageDarkMode = () => {
         width: 100%;
         height: 22px;
         border-radius: 50px;
-        background-color: var(--color);
+        background-color: var(--color-text-default);
         cursor: pointer;
         user-select: none;
     }
@@ -88,13 +90,13 @@ const resetStorageDarkMode = () => {
         width: 16px;
         height: 16px;
         border-radius: 50%;
-        box-shadow: inset 4px -1px 0 0 var(--background-color);
-        background-color: var(--color);
+        box-shadow: inset 4px -1px 0 0 var(--background-color-default);
+        background-color: var(--color-text-default);
         transition: 0.3s;
     }
 
     input:checked ~ .slider::before {
-        background-color: var(--background-color);
+        background-color: var(--background-color-default);
         transform: translateX(22px);
         box-shadow: none;
     }

@@ -67,17 +67,17 @@ const changeActiveChoiceIndex = (index: number) => {
         height: 40px;
         border-radius: 5px;
         border: 1px solid;
-        background-color: var(--background-color);
+        background-color: var(--background-color-default);
         font-size: 20px;
         cursor: pointer;
         user-select: none;
 
         &:hover {
-            background-color: var(--btn-hover-bg);
+            background-color: var(--background-color-button-hover);
         }
 
         &:active, &.quantityActive {
-            background-color: var(--btn-active-bg);
+            background-color: var(--background-color-button-active);
         }
     }
 

@@ -1,15 +1,32 @@
 <template>
-    <div :class="$style.btns">
-        <div v-if="mainStore.isGameFinished" :class="$style.btn" @click="resetGame">
+    <UiFlex justify-content="center" gap="g8" width="wfull">
+        <UiFlex
+            v-if="mainStore.isGameFinished"
+            justify-content="center"
+            align-items="center"
+            padding="p8"
+            radius="r4"
+            :class="$style.button"
+            @click="resetGame"
+        >
             Ещё раз?
-        </div>
-        <div v-else :class="$style.btn" @click="continueGame">
+        </UiFlex>
+        <UiFlex
+            v-else
+            justify-content="center"
+            align-items="center"
+            padding="p8"
+            radius="r4"
+            :class="$style.button"
+            @click="continueGame"
+        >
             Продолжить
-        </div>
-    </div>
+        </UiFlex>
+    </UiFlex>
 </template>
 
 <script setup lang="ts">
+import { UiFlex } from 'turmag-vue-components';
 import { useMainStore } from '@/stores/useMain.store';
 import { getRandom } from '@/shared/helpers';
 
@@ -60,36 +77,24 @@ const resetGame = () => mainStore.resetGame();
 </script>
 
 <style lang="scss" module>
-    .btns {
-        display: flex;
-        justify-content: center;
-        gap: 10px;
-        width: 100%;
-    }
-
-    .btn {
+    .button {
         box-sizing: border-box;
-        display: flex;
-        justify-content: center;
-        align-items: center;
         min-width: 40px;
         height: 40px;
         margin-top: 20px;
-        padding: 10px;
-        border-radius: 5px;
         border: 1px solid;
-        background-color: var(--background-color);
+        background-color: var(--background-color-default);
         font-size: 20px;
         transition: 0.3s ease;
         cursor: pointer;
         user-select: none;
 
         &:hover {
-            background-color: var(--btn-hover-bg);
+            background-color: var(--background-color-button-hover);
         }
 
         &:active {
-            background-color: var(--btn-active-bg);
+            background-color: var(--background-color-button-active);
         }
     }
 </style>

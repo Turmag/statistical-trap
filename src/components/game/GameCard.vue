@@ -99,7 +99,6 @@ const setActive = (index: number) => {
 
 <style lang="scss" module>
     /* stylelint-disable no-descending-specificity */
-
     .wrapper {
         position: relative;
         width: 200px;

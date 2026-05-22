@@ -93,8 +93,8 @@ const closeModal = () => modalStore.isShowModal = false;
         max-height: 680px;
         padding: 60px 16px 16px;
         border-radius: 20px;
-        background-color: var(--background-color);
-        color: var(--color);
+        background-color: var(--background-color-default);
+        color: var(--color-text-default);
         box-shadow: 0 4px 32px var(--shadow-color);
     }
 
@@ -136,18 +136,18 @@ const closeModal = () => modalStore.isShowModal = false;
         padding: 10px;
         border-radius: 5px;
         border: 1px solid;
-        background-color: var(--background-color);
+        background-color: var(--background-color-default);
         font-size: 20px;
         transition: 0.3s ease;
         cursor: pointer;
         user-select: none;
 
         &:hover {
-            background-color: var(--btn-hover-bg);
+            background-color: var(--background-color-button-hover);
         }
 
         &:active {
-            background-color: var(--btn-active-bg);
+            background-color: var(--background-color-button-active);
         }
     }
 </style>

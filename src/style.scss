@@ -1,8 +1,8 @@
 :root {
-    --color: #213547;
-    --background-color: #fff;
-    --btn-hover-bg: #a9f5b6;
-    --btn-active-bg: #8cf8c9;
+    --color-text-default: #213547;
+    --background-color-default: #fff;
+    --background-color-button-hover: #a9f5b6;
+    --background-color-button-active: #8cf8c9;
     --shadow-color: rgb(0 0 0 / 10%);
     
     font-family: Verdana, Geneva, Tahoma, sans-serif;
@@ -22,17 +22,17 @@ body {
     min-width: 320px;
     min-height: 100vh;
     margin: 0;
-    background-color: var(--background-color);
+    background-color: var(--background-color-default);
     background-image: url('@/assets/img/bg.png');
-    color: var(--color);
+    color: var(--color-text-default);
 
     &.dark {
         background-image: url('@/assets/img/bg-inverse.png');
 
-        --color: #decab8;
-        --background-color: #282828;
-        --btn-hover-bg: #560a49;
-        --btn-active-bg: #730736;
+        --color-text-default: #decab8;
+        --background-color-default: #282828;
+        --background-color-button-hover: #560a49;
+        --background-color-button-active: #730736;
         --shadow-color: rgb(255 255 255 / 10%);
     }
 }

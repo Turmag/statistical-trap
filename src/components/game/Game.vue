@@ -1,26 +1,35 @@
 <template>
-    <div class="game">
-        <div class="game__title game__title--center">
-            <div class="game__title-text">
+    <UiFlex direction="col" gap="g8" width="wfull">
+        <UiFlex
+            justify-content="center"
+            align-items="center"
+            gap="g8"
+            width="wfull"
+            :class="$style.titleWrapper"
+        >
+            <UiText size="fs24">
                 Поле игры
-            </div>
+            </UiText>
             <carbon-help
-                class="game__title-icon"
                 width="25"
                 height="25"
+                :class="$style.icon"
                 @click="showModal"
             />
-        </div>
-        <div class="game__title game__title--left">
-            <div class="game__title-text" v-text="message" />
-        </div>
+        </UiFlex>
+        <UiFlex align-items="center" gap="g8" width="wfull">
+            <UiText size="fs24">
+                {{ message }}
+            </UiText>
+        </UiFlex>
         <GameCards />
         <GameButtons v-if="mainStore.activeCardNumber !== -1" />
         <Modal />
-    </div>
+    </UiFlex>
 </template>
 
 <script setup lang="ts">
+import { UiFlex, UiText } from 'turmag-vue-components';
 import { computed } from 'vue';
 import GameButtons from '@/components/game/GameButtons.vue';
 import GameCards from '@/components/game/GameCards.vue';
@@ -42,32 +51,13 @@ const message = computed(() => mainStore.isWin
 const showModal = () => modalStore.isShowModal = true;
 </script>
 
-<style lang="scss" scoped>
-    .game {
-        display: flex;
-        flex-direction: column;
-        gap: 10px;
-        width: 100%;
+<style lang="scss" module>
+    .titleWrapper {
         margin-top: 20px;
-        font-size: 20px;
+    }
 
-        &__title {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            width: 100%;
-
-            &--center {
-                justify-content: center;
-            }
-        }
-
-        &__title-text {
-            font-size: 25px;
-        }
-
-        &__title-icon {
-            cursor: pointer;
-        }
+    .icon {
+        cursor: pointer;
+        user-select: none;
     }
 </style>

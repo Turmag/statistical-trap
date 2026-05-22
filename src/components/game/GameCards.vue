@@ -1,10 +1,17 @@
 <template>
-    <div :class="$style.cards">
+    <UiFlex
+        justify-content="center"
+        wrap="wrap"
+        gap="g20"
+        width="wfull"
+        :class="$style.cards"
+    >
         <GameCard v-for="card in mainStore.activeChoiceIndex" :key="card" :number="card" />
-    </div>
+    </UiFlex>
 </template>
 
 <script setup lang="ts">
+import { UiFlex } from 'turmag-vue-components';
 import GameCard from '@/components/game/GameCard.vue';
 import { useMainStore } from '@/stores/useMain.store';
 
@@ -13,11 +20,6 @@ const mainStore = useMainStore();
 
 <style lang="scss" module>
     .cards {
-        display: flex;
-        justify-content: center;
-        flex-wrap: wrap;
-        gap: 20px;
-        width: 100%;
         margin-top: 30px;
     }
 </style>
